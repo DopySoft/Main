@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-img = cv2.imread('wiki.jpg',0)
+img = cv2.imread('test.jpg',0)
 
 hist,bins = np.histogram(img.flatten(),256,[0,256])
 
@@ -15,12 +15,12 @@ plt.xlim([0,256])
 plt.legend(('cdf','histogram'), loc = 'upper left')
 plt.show()
 
-img = cv2.imread('wiki.jpg',0)
+img = cv2.imread('test.jpg',0)
 equ = cv2.equalizeHist(img)
 res = np.hstack((img,equ)) #stacking images side-by-side
-cv2.imwrite('res.png',res)
+cv2.imwrite('test1.jpg',res)
 
-img = cv2.imread('tsukuba_l.png',0)
+img = cv2.imread('test.jpg',0)
 
 # create a CLAHE object (Arguments are optional).
 clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
