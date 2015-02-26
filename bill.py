@@ -170,7 +170,11 @@ class billingWidget(QtGui.QWidget):
             trackedPathFile.write(path)
             trackedPathFile.truncate()
             trackedPathFile.close()
+<<<<<<< HEAD
             #chorePlay.rename(self, path)
+=======
+            chorePlay.rename(self, path)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
             self.leftWidget.loadFolderLabel.setText(path)
             self.roll = Roll(path)
             self.displayWidget.loadSnap()

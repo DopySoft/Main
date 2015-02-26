@@ -93,9 +93,17 @@ def readSnaps(path):
     print(path)
     dataList = [] #[snapName, folderName, idNo, copies, newCopies = oldCopies, path]
     for folder in folders:
+<<<<<<< HEAD
         folderName = folder
         snaps = os.listdir(path + os.sep + folderName)
         for snap in snaps:
+=======
+        print("folder: " + folder)
+        folderName = folder
+        snaps = os.listdir(path + os.sep + folderName)
+        for snap in snaps:
+            print("\tsnap :" + snap)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
             snapWithoutExt = "".join(snap.split('.')[:-1]) if len(snap.split('.')) > 1 else snap
             rec = snapWithoutExt.split('_')
             if len(rec) != 5:
@@ -116,7 +124,11 @@ def readSnaps(path):
     return dataList
             
 def generateBill(billingList, database):
+<<<<<<< HEAD
 
+=======
+    print("Genetating BILL")
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
     list_ = database.cursor.execute("select * from studrec")
 
     finalBill = []
@@ -164,6 +176,14 @@ def resizeAndSave(billingWidget):
         rollName = roll.name
         sourcePath = roll.path
 
+<<<<<<< HEAD
+=======
+        #for an empty roll, do not proceed
+        if not roll.snapList:
+            QtGui.QMessageBox.information(None, "Message", "There are no snaps to bill", QtGui.QMessageBox.Ok)
+            return None
+
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
         #handling destinationpath
         trackedPathFile = open(os.getcwd() + os.sep + "resources" + os.sep
                                + "trackedPath.txt", "r")
@@ -203,6 +223,7 @@ def resizeAndSave(billingWidget):
             if reply == QtGui.QMessageBox.No: #Terminate
                 return None
             else: #Delete existing folder, create new one
+<<<<<<< HEAD
                 try:
                     shutil.rmtree(billingPath)
                     os.mkdir(billingPath)
@@ -210,12 +231,20 @@ def resizeAndSave(billingWidget):
                     QtGui.QMessageBox.information(None, "Message", "Could not delete the files", QtGui.QMessageBox.Ok)
                     return None
                 
+=======
+                shutil.rmtree(billingPath)
+                os.mkdir(billingPath)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
 
         #variables to count total no of snaps copied
         rollCount = 0
         deptCount = 0
         outsiCount = 0
         emailCount = 0
+<<<<<<< HEAD
+=======
+        failedResize = 0
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
         failedCopies = 0
 
         #print(roll.snapList)
@@ -227,6 +256,23 @@ def resizeAndSave(billingWidget):
 
             infile = open(sourcePath + "\\" + snap.name, 'rb')
 
+<<<<<<< HEAD
+=======
+            #handling unknown formats
+            unsupportedFormat = False
+            try: 
+                #Resize the snap
+                im = Image.open(infile)
+                #width, height = im.size
+                #size = (FIXED_EDGE, FIXED_EDGE * height / width) if width > height else (FIXED_EDGE * width / height, FIXED_EDGE)
+                #im.thumbnail(size, Image.ANTIALIAS)
+            except:
+                failedResize += 1
+                unsupportedFormat = True
+                
+                continue
+
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
             #Copy roll snaps
             idList = snap.idList
             #print("idlist", idList)
@@ -239,6 +285,7 @@ def resizeAndSave(billingWidget):
                 
                 for copyNo in range(numCopies):
                     try:
+<<<<<<< HEAD
                         print("roll snap " + snapName + " " + str(copyNo))
                         if snapExtension:
                             print("has extension")
@@ -251,6 +298,18 @@ def resizeAndSave(billingWidget):
                             print(len(buffer))
                             outfile.write(buffer)
                             buffer = infile.read(bufferSize)
+=======
+                        #print("check0045", snapExtension, snapName)
+                        if snapExtension: outfile = open(billingPath+"\\"+"{}_{}_{}_{}.{}".format(roomDetails,snapName,copyNo + 1,id,snapExtension), 'wb')
+                        else: outfile = open(billingPath+"\\"+"{}_{}_{}_{}".format(roomDetails,snapName,copyNo + 1,id), 'wb') 
+                        if not unsupportedFormat: im.save(outfile) #save resized snap
+                        else: #copying without resizing
+                            bufferSize = 100000
+                            buffer = infile.read(buffersize)
+                            while len(buffer):
+                                outfile.write(buffer)
+                                buffer = infile.read(buffersize)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
                         outfile.close()
                         rollCount += 1
                     except:
@@ -273,12 +332,22 @@ def resizeAndSave(billingWidget):
                 if snapExtension: outfile = open(deptPath+"\\{}\\{}.{}".format(snap.dept,snapName,snapExtension), 'wb')
                 else: outfile = open(deptPath+"\\{}\\{}".format(snap.dept,snapName), 'wb')
                 try:
+<<<<<<< HEAD
                     bufferSize = 100000
                     infile.seek(0)
                     buffer = infile.read(bufferSize)
                     while len(buffer):
                         outfile.write(buffer)
                         buffer = infile.read(bufferSize)
+=======
+                    if not unsupportedFormat: im.save(outfile) #save resized snap
+                    else: #copying without resizing
+                        bufferSize = 100000
+                        buffer = infile.read(buffersize)
+                        while len(buffer):
+                            outfile.write(buffer)
+                            buffer = infile.read(buffersize)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
                     outfile.close()
                     deptCount += 1
                 except:
@@ -300,12 +369,22 @@ def resizeAndSave(billingWidget):
                     try:
                         if snapExtension: outfile = open(outsiPath+"\\{}_{}.{}".format(snapName,copyNo + 1,snapExtension), 'wb')
                         else: outfile = open(outsiPath+"\\{}_{}".format(snapName,copyNo + 1), 'wb')
+<<<<<<< HEAD
                         bufferSize = 100000
                         infile.seek(0)
                         buffer = infile.read(bufferSize)
                         while len(buffer):
                             outfile.write(buffer)
                             buffer = infile.read(bufferSize)
+=======
+                        if not unsupportedFormat: im.save(outfile) #save resized snap
+                        else: #copying without resizing
+                            bufferSize = 100000
+                            buffer = infile.read(buffersize)
+                            while len(buffer):
+                                outfile.write(buffer)
+                                buffer = infile.read(buffersize)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
                         outfile.close()
                         outsiCount += 1
                     except:
@@ -335,7 +414,11 @@ def resizeAndSave(billingWidget):
 
         progress.close()
         billingWidget.setEnabled(True)
+<<<<<<< HEAD
         QtGui.QMessageBox.information(None, "Success!!!","Snaps copied successfully\nRoll Snaps copied:\t\t{}\nOutsi Snaps copied:\t\t{}\nDept Snaps Copied:\t\t{}\nEmailIDs written\t\t{}\nSnaps not copied\t\t{}\nPlease make a note of it!!!".format(rollCount,outsiCount,deptCount,emailCount, failedCopies), QtGui.QMessageBox.Ok)
+=======
+        QtGui.QMessageBox.information(None, "Success!!!","Snaps copied successfully\nRoll Snaps copied:\t\t{}\nOutsi Snaps copied:\t\t{}\nDept Snaps Copied:\t\t{}\nEmailIDs written\t\t{}\nSnaps not resized\t\t{}\nSnaps not copied\t\t{}\nPlease make a note of it!!!".format(rollCount,outsiCount,deptCount,emailCount,failedResize,failedCopies), QtGui.QMessageBox.Ok)
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
         return 1
 
     #return function

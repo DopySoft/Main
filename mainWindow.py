@@ -129,7 +129,10 @@ class mainWindow(QtGui.QMainWindow):
             self.widget.loadNewFolder()
 
         elif widget == "unbilling":
+<<<<<<< HEAD
             return None
+=======
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
             if self.widget != None: self.widget.close()
             self.widget = unbill.unbillingWidget(self)
             self.widget.setStyleSheet(self.configurator.otherWidgetsStyleSheet)
@@ -145,7 +148,10 @@ class mainWindow(QtGui.QMainWindow):
             
 
         elif widget == "emailer":
+<<<<<<< HEAD
             return None
+=======
+>>>>>>> 088001604e17d143ebc21dcd1aced053e32305bf
             if self.widget != None: self.widget.close()
             self.widget = email_ui.Email_Ui(self)
             self.widget.setStyleSheet(self.configurator.otherWidgetsStyleSheet)
